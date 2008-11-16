@@ -1,3 +1,10 @@
+
+
 This is a simple little application that let's you view your KML on a Google Map.
 
+It is created in Python using the Google App Engine framework.  
+
 You can view this in action at display-kml.appspot.com
+
+Feel free to copy this application and use it yourself!  (Note: the index.html includes my Google Analytics script.  Also you'll have to change the Google Map Key in display_kml.py)
+
