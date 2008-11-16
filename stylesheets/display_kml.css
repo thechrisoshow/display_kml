@@ -1,0 +1,66 @@
+/* @override http://localhost:8080/stylesheets/display_kml.css */
+
+body
+{
+	background-color:#FFFFFF; 
+	
+	margin: 0pt;
+	font-family: "Lucida Grande", Lucida, Verdana, sans-serif;
+}
+
+.h1 {
+	margin-left:10px;
+}
+
+.header
+{
+	width: 99%;
+	background: #292828 none repeat scroll 0%;
+	height: 70px;
+	padding-top: 10px;
+	margin-bottom: 10px;
+	padding-left: 10px;
+	color: white;
+}
+
+.footer
+{
+	padding: 10px;
+	clear: both;
+	background: silver none repeat scroll 0%;
+	margin-top: 20px;
+}
+
+.ads_bar {
+	position: absolute;
+	left:30px;
+	top:460px;
+  margin-top:40px;
+	width:300px;
+	background:#fff;
+  clear: left;	
+}
+
+fieldset {
+	position: absolute;
+	left:10px;
+	top:90px;
+	width:300px;
+	background:#fff;
+	border:0px solid #000;	
+}
+
+fieldset textarea {
+	width: 100%;
+}
+
+.map_window {
+	background:#fff;
+	border:1px solid #000;
+	margin-left: 351px;
+	margin-right: 10px;
+}
+
+#map {
+	width: 100%;
+}

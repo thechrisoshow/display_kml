@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>
+			Display KML on a Google Map - www.thechrisoshow.com
+		</title>
+		<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key={{ google_map_key }}" type="text/javascript">
+</script>
+		<link type="text/css" rel="stylesheet" href="/stylesheets/display_kml.css" />
+		<!--[if IE]>
+			<link type="text/css" rel="stylesheet" href="/stylesheets/ie.css" />
+		<![endif]-->
+		
+		<script type="text/javascript">
+//<![CDATA[
+
+		var map;
+		var geoXml = new GGeoXml("http://display-kml.appspot.com/get_kml/{% now "s" %}/{{ kml_data.uuid }}.kml" );
+
+		function load() 
+		{
+			if (GBrowserIsCompatible()) 
+			{
+					map = new GMap2(document.getElementById("map")); 
+					map.addControl(new GLargeMapControl());
+					map.setCenter(new GLatLng({{ lat }}, {{ long }}), {{ zoom_level }}); 
+					map.addControl(new GLargeMapControl());
+					map.addControl(new GMapTypeControl());
+					map.addControl(new GOverviewMapControl());
+					map.addOverlay(geoXml);     
+					GEvent.addListener( map, "dblclick", setLatLongs);
+					GEvent.addListener( map, "zoomend", setZoom);
+					GEvent.addListener( map, "moveend", setLatLongs);
+					geoXml.gotoDefaultViewport(map)
+			 }
+		 }
+
+		function setLatLongs()
+		{
+				document.getElementById('lat').value = map.getCenter().lat();
+				document.getElementById('long').value = map.getCenter().lng();  
+
+		}
+
+		function setZoom()
+		{
+				document.getElementById('zoom_level').value = map.getZoom();
+		}
+
+		//]]>
+		</script>
+	</head>
+	<body onload="load()" onunload="GUnload()">
+		<div class='header'>
+			<h1>View your KML directly on a google map</h1>
+		</div>
+		
+		<fieldset>
+			<legend>Type your KML in here</legend>
+						<form action="/" method="post">
+							<textarea cols="40" id="id_kml" name="kml" rows="20">{{ kml_data.kml }}</textarea> 
+							<input name="key" value="{{ key }}" type="hidden" /> 
+							<input id="lat" name="lat" type="hidden" value="{{ lat }}" /> 
+							<input id="long" name="long" type="hidden" value="{{ long }}" /> 
+							<input id="zoom_level" name="zoom_level" type="hidden" value="{{ zoom_level }}" />
+							<input name="commit" type="submit" value="Show it on the map!" />
+						</form>				
+			</fieldset>
+			
+			<div class="ads_bar">
+				<script type="text/javascript"><!--
+				google_ad_client = "pub-2159787349362174";
+				/* 234x60, created 4/30/08 */
+				google_ad_slot = "0382349284";
+				google_ad_width = 234;
+				google_ad_height = 60;
+				//-->
+				</script>
+				<script type="text/javascript"
+				src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+				</script>
+			</div>
+			
+			
+			<div class='map_window'>
+				<div id="map" style="width: 100%; height: 480px; border: 1px solid black;"></div>
+		  </div>	
+			
+			
+			<div class='footer'>
+				<h3>
+				Handy links:
+				</h3>
+
+				<ul>
+					<li><a href="http://code.google.com/apis/kml/documentation/kml_tags_21.html">
+					KML Reference
+					</a></li>
+					<li><a href="http://code.google.com/apis/kml/documentation/kml_21tutorial.html">
+					KML Tutorial
+					</a></li>
+					<li><a href="http://code.google.com/apis/kml/documentation/kml_tut.html">
+					KML Samples
+					</a></li>
+					<li><a href="http://www.thechrisoshow.com/display_kml/geocoder">
+					Geocoder
+					</a></li>
+				</ul>
+							
+				Brought to you by the 
+				<a href="http://www.thechrisoshow.com">
+					The Chris O Show
+				</a>
+				thechrisoshow [at] gmail [dot] com
+		</div>
+		<script type="text/javascript">
+		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+		<script type="text/javascript">
+		var pageTracker = _gat._getTracker("UA-1964204-2");
+		pageTracker._initData();
+		pageTracker._trackPageview();
+		</script>	
+	</body>
+</html>
