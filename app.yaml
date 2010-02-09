@@ -4,6 +4,13 @@ runtime: python
 api_version: 1
 
 handlers:
+- url: /console/static
+  static_dir: console/app/view/static
+
+- url: /console.*
+  script: console/app/console.py
+
+  # (The rest of your handlers go below this line)
 - url: /stylesheets
   static_dir: stylesheets
 - url: /.*

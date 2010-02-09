@@ -12,6 +12,7 @@ from google.appengine.ext.webapp import template
 class KmlData(db.Model):
 	kml = db.TextProperty()
 	uuid = db.StringProperty(multiline=False)
+	date = db.DateTimeProperty(auto_now_add=True)
 	
 	def reset_uuid(self):
 		self.uuid = str(uuid.uuid1())
