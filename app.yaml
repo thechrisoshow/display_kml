@@ -13,5 +13,10 @@ handlers:
   # (The rest of your handlers go below this line)
 - url: /stylesheets
   static_dir: stylesheets
+
+- url: /purge
+  script: display_kml.py
+  login: admin
+  
 - url: /.*
   script: display_kml.py
