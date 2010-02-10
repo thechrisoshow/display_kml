@@ -66,9 +66,32 @@ class KmlFile(webapp.RequestHandler):
 		except Exception:
 				self.error(500)
 
+class Purge(webapp.RequestHandler):
+  def get(self):
+    q = db.GqlQuery("SELECT * FROM KmlData where __key__ < key('KmlData', 270000)")
+    results = q.fetch(10)
+    self.response.headers['Content-Type'] = 'text/plain'
+    #replace yourapp and YouData your app info below.
+    self.response.out.write("""
+      <html>
+      <meta HTTP-EQUIV="REFRESH" content="5; url=http://yourapp.appspot.com/cleanTable?table=YourData">
+        <body>""")
+
+    try:
+      db.delete(results)
+      results = q.fetch(500, len(results))
+      self.response.out.write("<p>500 removed</p>")
+      self.response.out.write("""
+      </body>
+      </html>""")
+
+    except Exception, ints:
+        self.response.out.write(str(ints))
+
 def main():
   application = webapp.WSGIApplication(
-                                       [('/', MainPage), (r'/get_kml/\d+/(?P<uuid_to_find>.+)\.kml', KmlFile)], debug=True)
+                                       [('/', MainPage), (r'/get_kml/\d+/(?P<uuid_to_find>.+)\.kml', KmlFile),
+(r'/purge', Purge)], debug=True)
   wsgiref.handlers.CGIHandler().run(application)
 
 if __name__ == "__main__":
