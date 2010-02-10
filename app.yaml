@@ -16,7 +16,7 @@ handlers:
 
 - url: /purge
   script: display_kml.py
-  login: admin
+  # login: admin
   
 - url: /.*
   script: display_kml.py

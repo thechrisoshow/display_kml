@@ -69,7 +69,7 @@ class KmlFile(webapp.RequestHandler):
 class Purge(webapp.RequestHandler):
   def get(self):
     q = db.GqlQuery("SELECT * FROM KmlData where __key__ < key('KmlData', 270000)")
-    results = q.fetch(10)
+    results = q.fetch(500)
     self.response.headers['Content-Type'] = 'text/plain'
     #replace yourapp and YouData your app info below.
     self.response.out.write("""
