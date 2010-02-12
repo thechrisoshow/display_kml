@@ -41,6 +41,14 @@ body
   clear: left;	
 }
 
+.tipit {
+  float: right;
+}
+
+.tipit a img {
+  border-style: none;
+}
+
 fieldset {
 	position: absolute;
 	left:10px;
