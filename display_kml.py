@@ -68,7 +68,9 @@ class KmlFile(webapp.RequestHandler):
 
 class Purge(webapp.RequestHandler):
   def get(self):
-    q = db.GqlQuery("SELECT * FROM KmlData where date < :1", datetime.date.today().timedelta(-1))
+    
+    expires = datetime.datetime.now() + datetime.timedelta(days=-1)
+    q = db.GqlQuery("SELECT * FROM KmlData where date < :1", expires)
     results = q.fetch(500)
     self.response.headers['Content-Type'] = 'text/plain'
     #replace yourapp and YouData your app info below.
