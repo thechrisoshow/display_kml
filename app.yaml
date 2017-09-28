@@ -1,6 +1,6 @@
-application: display-kml
-version: 1
-runtime: python
+application: display-kml-hrd
+version: 2
+runtime: python27
 api_version: 1
 
 handlers:
@@ -17,6 +17,6 @@ handlers:
 - url: /purge
   script: display_kml.py
   # login: admin
-  
+
 - url: /.*
   script: display_kml.py
