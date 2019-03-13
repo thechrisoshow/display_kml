@@ -20,7 +20,9 @@
       //<![CDATA[
 
       		var map;
-      		var geoXml = new GGeoXml("https://display-kml-hrd.appspot.com/get_kml/{{ right_now }}/{{ kml_data.uuid }}.kml" );
+      		var geoXml = new GGeoXml("https://display-kml-hrd.appspot.com/get_kml/{{ right_now }}/{{ kml_data.uuid }}.kml", function() {
+            load()
+          });
 
       		function load()
       		{
@@ -55,7 +57,7 @@
       		//]]>
     </script>
   </head>
-  <body onload="load()" onunload="GUnload()">
+  <body onunload="GUnload()">
     <div class="header"><h1>View your KML directly on a google map</h1></div>
 
     <fieldset>
