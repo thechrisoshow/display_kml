@@ -13,7 +13,7 @@ class KmlData(db.Model):
 	kml = db.TextProperty()
 	uuid = db.StringProperty(multiline=False)
 	date = db.DateTimeProperty(auto_now_add=True)
-	
+
 	def reset_uuid(self):
 		self.uuid = str(uuid.uuid1())
 
@@ -27,20 +27,20 @@ class MainPage(webapp.RequestHandler):
       'lat': 41.875696,
       'long': -87.624207,
       'zoom_level': 1,
-      'google_map_key': 'ABQIAAAAku8DcWMwO9f8YVy4Qbom3RSmOB7sRPneGnHdBjmMnq4YTUhpZxQLtjgcKvFYOImH-uVUqU8bi4sEOQ'
+      'google_map_key': 'AIzaSyDn1JWxObh62eNZXrnN_dmXXvNYBqRY2hM'
     }
     path = os.path.join(os.path.dirname(__file__), 'index.html')
     self.response.out.write(template.render(path, template_values))
-  
+
   def post(self):
 		key_id = self.request.get('key')
 		kml_data = db.get(db.Key(key_id))
 		kml_data.kml = self.request.get('kml')
 		kml_data.put()
 		self.redirect('/')
-  
+
   def find_kml_data(self):
-    if self.request.cookies.has_key('key_id'): 
+    if self.request.cookies.has_key('key_id'):
 	    key_id = self.request.cookies['key_id']
 	    kml_data = db.get(db.Key(key_id))
     else:
@@ -50,7 +50,7 @@ class MainPage(webapp.RequestHandler):
 			kml_data.put()
 			self.create_cookie('key_id', kml_data.key())
     return kml_data
-  
+
   def create_cookie(self, key, value):
 		expires = datetime.datetime.now() + datetime.timedelta(minutes=5)
 		expires_rfc822 = expires.strftime('%a, %d %b %Y %H:%M:%S -0800')
@@ -68,7 +68,7 @@ class KmlFile(webapp.RequestHandler):
 
 class Purge(webapp.RequestHandler):
   def get(self):
-    
+
     expires = datetime.datetime.now() + datetime.timedelta(days=-1)
     q = db.GqlQuery("SELECT * FROM KmlData where date < :1", expires)
     results = q.fetch(500)
