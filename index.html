@@ -22,8 +22,8 @@
       		var map;
       		var geoXml = new GGeoXml("https://display-kml-hrd.appspot.com/get_kml/{{ right_now }}/{{ kml_data.uuid }}.kml" );
           GEvent.addListener(geoXml, "load", function() {
-            // geoXml.gotoDefaultViewport(map);
-            load();
+            geoXml.gotoDefaultViewport(map);
+            // I would like to read the KML contents here
           });
 
       		function load()
@@ -59,7 +59,7 @@
       		//]]>
     </script>
   </head>
-  <body onunload="GUnload()">
+  <body onload="load()" onunload="GUnload()">
     <div class="header"><h1>View your KML directly on a google map</h1></div>
 
     <fieldset>
