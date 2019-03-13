@@ -35,7 +35,7 @@ class MainPage(webapp.RequestHandler):
       'kml_data': kml_data,
       'lat': 41.875696,
       'long': -87.624207,
-      'right_now': "%s" % now,
+      'right_now': "%Y-%m-%d-%H-%M" % now,
       'zoom_level': 1,
       'google_map_key': 'AIzaSyDn1JWxObh62eNZXrnN_dmXXvNYBqRY2hM'
     }
