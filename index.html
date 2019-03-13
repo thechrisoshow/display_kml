@@ -3,8 +3,12 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <title>Display KML on a Google Map - www.thechrisoshow.com</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
     <script
-      src="https://maps.google.com/maps?file=api&amp;v=2&amp;key={{ google_map_key }}"
+      async
+      defer
+      src="https://maps.googleapis.com/maps/api/js?key={{ google_map_key }}&callback=initMap"
       type="text/javascript"
     ></script>
     <link
@@ -19,52 +23,54 @@
     <script type="text/javascript">
       //<![CDATA[
 
-      		var map;
-          var ctaLayer;
-      		// var geoXml = new GGeoXml("https://display-kml-hrd.appspot.com/get_kml/{{ right_now }}/{{ kml_data.uuid }}.kml" );
-          // GEvent.addListener(geoXml, "load", function() {
-          //   geoXml.gotoDefaultViewport(map);
-          //   // I would like to read the KML contents here
-          // });
+      var map;
+      var ctaLayer;
+      // var geoXml = new GGeoXml("https://display-kml-hrd.appspot.com/get_kml/{{ right_now }}/{{ kml_data.uuid }}.kml" );
+      // GEvent.addListener(geoXml, "load", function() {
+      //   geoXml.gotoDefaultViewport(map);
+      //   // I would like to read the KML contents here
+      // });
 
-      		function load()
-      		{
-      			if (GBrowserIsCompatible())
-      			{
-      					map = new GMap2(document.getElementById("map"));
-      					map.addControl(new GLargeMapControl());
-      					map.setCenter(new GLatLng({{ lat }}, {{ long }}), {{ zoom_level }});
-      					map.addControl(new GLargeMapControl());
-      					map.addControl(new GMapTypeControl());
-      					map.addControl(new GOverviewMapControl());
-      					map.addOverlay(geoXml);
-      					GEvent.addListener( map, "dblclick", setLatLongs);
-      					GEvent.addListener( map, "zoomend", setZoom);
-      					GEvent.addListener( map, "moveend", setLatLongs);
-      					// geoXml.gotoDefaultViewport(map)
-                ctaLayer = new google.maps.KmlLayer({
-                  url: "https://display-kml-hrd.appspot.com/get_kml/{{ right_now }}/{{ kml_data.uuid }}.kml",
-                  map: map
-                });
-      			 }
-      		 }
+      function initMap() {
+        // if (GBrowserIsCompatible()) {
+        // map = new GMap2(document.getElementById("map"));
+        var mapProp = {
+          center: new google.maps.LatLng({{ lat }}, {{ long }}),
+          zoom: {{ zoom_level }},
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map(document.getElementById("map"), mapProp);
+        // map.addControl(new GLargeMapControl());
+        // map.setCenter(new GLatLng({{ lat }}, {{ long }}), {{ zoom_level }});
+        // map.addControl(new GLargeMapControl());
+        // map.addControl(new GMapTypeControl());
+        // map.addControl(new GOverviewMapControl());
+        // map.addOverlay(geoXml);
+        // GEvent.addListener(map, "dblclick", setLatLongs);
+        // GEvent.addListener(map, "zoomend", setZoom);
+        // GEvent.addListener(map, "moveend", setLatLongs);
+        // geoXml.gotoDefaultViewport(map)
+        var ctaLayer = new google.maps.KmlLayer({
+          url:
+            "https://display-kml-hrd.appspot.com/get_kml/{{ right_now }}/{{ kml_data.uuid }}.kml",
+          map: map
+        });
+        // }
+      }
 
-      		function setLatLongs()
-      		{
-      				document.getElementById('lat').value = map.getCenter().lat();
-      				document.getElementById('long').value = map.getCenter().lng();
+      function setLatLongs() {
+        document.getElementById("lat").value = map.getCenter().lat();
+        document.getElementById("long").value = map.getCenter().lng();
+      }
 
-      		}
+      function setZoom() {
+        document.getElementById("zoom_level").value = map.getZoom();
+      }
 
-      		function setZoom()
-      		{
-      				document.getElementById('zoom_level').value = map.getZoom();
-      		}
-
-      		//]]>
+      //]]>
     </script>
   </head>
-  <body onload="load()" onunload="GUnload()">
+  <body onunload="GUnload()">
     <div class="header"><h1>View your KML directly on a google map</h1></div>
 
     <fieldset>
