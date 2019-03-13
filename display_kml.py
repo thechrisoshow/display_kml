@@ -7,15 +7,24 @@ import wsgiref.handlers
 from google.appengine.api import users
 from google.appengine.ext import webapp
 from google.appengine.ext import db
-from google.appengine.ext.webapp import template
+# from google.appengine.ext.webapp import template
+import jinja2
+
+import datetime
+now = datetime.datetime.now()
+
+JINJA_ENVIRONMENT = jinja2.Environment(
+    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
+    extensions=['jinja2.ext.autoescape'],
+    autoescape=True)
 
 class KmlData(db.Model):
-	kml = db.TextProperty()
-	uuid = db.StringProperty(multiline=False)
-	date = db.DateTimeProperty(auto_now_add=True)
+    kml = db.TextProperty()
+    uuid = db.StringProperty(multiline=False)
+    date = db.DateTimeProperty(auto_now_add=True)
 
-	def reset_uuid(self):
-		self.uuid = str(uuid.uuid1())
+    def reset_uuid(self):
+        self.uuid = str(uuid.uuid1())
 
 class MainPage(webapp.RequestHandler):
   def get(self):
@@ -26,45 +35,50 @@ class MainPage(webapp.RequestHandler):
       'kml_data': kml_data,
       'lat': 41.875696,
       'long': -87.624207,
+      'right_now': "%s" % now,
       'zoom_level': 1,
       'google_map_key': 'AIzaSyDn1JWxObh62eNZXrnN_dmXXvNYBqRY2hM'
     }
-    path = os.path.join(os.path.dirname(__file__), 'index.html')
-    self.response.out.write(template.render(path, template_values))
+    template = JINJA_ENVIRONMENT.get_template('index.html')
+    self.response.write(template.render(template_values))
+    # path = os.path.join(os.path.dirname(__file__), 'index.html')
+    # content = template.render(path, template_values)
+    # self.response.out.write(template.render(path, template_values))
+    # self.response.out.write(content)
 
   def post(self):
-		key_id = self.request.get('key')
-		kml_data = db.get(db.Key(key_id))
-		kml_data.kml = self.request.get('kml')
-		kml_data.put()
-		self.redirect('/')
+    key_id = self.request.get('key')
+    kml_data = db.get(db.Key(key_id))
+    kml_data.kml = self.request.get('kml')
+    kml_data.put()
+    self.redirect('/')
 
   def find_kml_data(self):
     if self.request.cookies.has_key('key_id'):
-	    key_id = self.request.cookies['key_id']
-	    kml_data = db.get(db.Key(key_id))
+        key_id = self.request.cookies['key_id']
+        kml_data = db.get(db.Key(key_id))
     else:
-			kml_data = KmlData()
-			kml_data.reset_uuid()
-			kml_data.kml = ''
-			kml_data.put()
-			self.create_cookie('key_id', kml_data.key())
+        kml_data = KmlData()
+        kml_data.reset_uuid()
+        kml_data.kml = ''
+        kml_data.put()
+        self.create_cookie('key_id', kml_data.key())
     return kml_data
 
   def create_cookie(self, key, value):
-		expires = datetime.datetime.now() + datetime.timedelta(minutes=5)
-		expires_rfc822 = expires.strftime('%a, %d %b %Y %H:%M:%S -0800')
-		self.response.headers.add_header('Set-Cookie', '%s=%s; expires=%s' % (key, value, expires_rfc822))
+    expires = datetime.datetime.now() + datetime.timedelta(minutes=5)
+    expires_rfc822 = expires.strftime('%a, %d %b %Y %H:%M:%S -0800')
+    self.response.headers.add_header('Set-Cookie', '%s=%s; expires=%s' % (key, value, expires_rfc822))
 
 class KmlFile(webapp.RequestHandler):
-	def get(self, uuid):
-		try:
-				kml_datas = KmlData.gql("WHERE uuid = :1", uuid) #db.get(uuid=uuid)
-				kml_data = kml_datas.get()
-				self.response.headers['Content-Type'] = 'data/xml'
-				self.response.out.write(kml_data.kml)
-		except Exception:
-				self.error(500)
+    def get(self, uuid):
+        try:
+                kml_datas = KmlData.gql("WHERE uuid = :1", uuid) #db.get(uuid=uuid)
+                kml_data = kml_datas.get()
+                self.response.headers['Content-Type'] = 'data/xml'
+                self.response.out.write(kml_data.kml)
+        except Exception:
+                self.error(500)
 
 class Purge(webapp.RequestHandler):
   def get(self):

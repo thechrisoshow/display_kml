@@ -19,3 +19,7 @@ handlers:
     # login: admin
   - url: /.*
     script: display_kml.py
+
+libraries:
+  - name: jinja2
+    version: latest
