@@ -20,8 +20,10 @@
       //<![CDATA[
 
       		var map;
-      		var geoXml = new GGeoXml("https://display-kml-hrd.appspot.com/get_kml/{{ right_now }}/{{ kml_data.uuid }}.kml", function() {
-            load()
+      		var geoXml = new GGeoXml("https://display-kml-hrd.appspot.com/get_kml/{{ right_now }}/{{ kml_data.uuid }}.kml" );
+          GEvent.addListener(geoXml, "load", function() {
+            // geoXml.gotoDefaultViewport(map);
+            load();
           });
 
       		function load()
