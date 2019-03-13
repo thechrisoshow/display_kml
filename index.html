@@ -50,9 +50,8 @@
         // GEvent.addListener(map, "zoomend", setZoom);
         // GEvent.addListener(map, "moveend", setLatLongs);
         // geoXml.gotoDefaultViewport(map)
-        var ctaLayer = new google.maps.KmlLayer({
-          url:
-            "https://display-kml-hrd.appspot.com/get_kml/{{ right_now }}/{{ kml_data.uuid }}.kml",
+        ctaLayer = new google.maps.KmlLayer({
+          url: "https://display-kml-hrd.appspot.com/get_kml/{{ right_now }}/{{ kml_data.uuid }}.kml",
           map: map
         });
         // }
