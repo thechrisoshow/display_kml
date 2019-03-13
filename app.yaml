@@ -1,22 +1,21 @@
-application: display-kml-hrd
-version: 2
 runtime: python27
 api_version: 1
+threadsafe: false
 
 handlers:
-- url: /console/static
-  static_dir: console/app/view/static
+  - url: /console/static
+    static_dir: console/app/view/static
 
-- url: /console.*
-  script: console/app/console.py
+  - url: /console.*
+    script: console/app/console.py
 
-  # (The rest of your handlers go below this line)
-- url: /stylesheets
-  static_dir: stylesheets
+    # (The rest of your handlers go below this line)
+  - url: /stylesheets
+    static_dir: stylesheets
 
-- url: /purge
-  script: display_kml.py
-  # login: admin
+  - url: /purge
+    script: display_kml.py
 
-- url: /.*
-  script: display_kml.py
+    # login: admin
+  - url: /.*
+    script: display_kml.py
