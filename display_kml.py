@@ -73,8 +73,9 @@ class MainPage(webapp.RequestHandler):
 class KmlFile(webapp.RequestHandler):
     def get(self, uuid):
         try:
-                kml_datas = KmlData.gql("WHERE uuid = :1", uuid) #db.get(uuid=uuid)
-                kml_data = kml_datas.get()
+                # kml_datas = KmlData.gql("WHERE uuid = :1", uuid) #db.get(uuid=uuid)
+                # kml_data = kml_datas.get()
+                kml_data = db.get(db.Key(key_id))
                 self.response.headers['Content-Type'] = 'application/vnd.google-earth.kml+xml'
                 self.response.out.write(kml_data.kml)
         except Exception:
