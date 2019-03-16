@@ -8,7 +8,7 @@
     <script
       async
       defer
-      src="https://maps.googleapis.com/maps/api/js?key={{ google_map_key }}&callback=initMap"
+      src="https://maps.googleapis.com/maps/api/js?key={{ google_map_key }}&callback=initMapAfterWaiting"
       type="text/javascript"
     ></script>
     <link
@@ -30,6 +30,10 @@
       //   geoXml.gotoDefaultViewport(map);
       //   // I would like to read the KML contents here
       // });
+
+      function initMapAfterWaiting() {
+        setTimeout(initMap, 1000)
+      }
 
       function initMap() {
         // if (GBrowserIsCompatible()) {
