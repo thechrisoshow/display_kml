@@ -11,7 +11,7 @@ from google.appengine.ext import db
 import jinja2
 
 import datetime
-now = int(datetime.datetime.now().strftime("%s")) * 1000
+now = datetime.datetime.now().strftime("%s")
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -75,7 +75,8 @@ class KmlFile(webapp.RequestHandler):
         try:
                 kml_datas = KmlData.gql("WHERE uuid = :1", uuid) #db.get(uuid=uuid)
                 kml_data = kml_datas.get()
-                # self.response.headers['Content-Type'] = 'application/vnd.google-earth.kml+xml'
+                self.response.headers['Content-Type'] = 'application/vnd.google-earth.kml+xml'
+                self.response.headers['Content-Length'] = len(kml_data)
                 self.response.out.write(kml_data.kml)
         except Exception:
                 self.error(500)
