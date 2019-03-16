@@ -11,7 +11,6 @@ from google.appengine.ext import db
 import jinja2
 
 import datetime
-now = datetime.datetime.now().strftime("%s")
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -35,7 +34,7 @@ class MainPage(webapp.RequestHandler):
       'kml_data': kml_data,
       'lat': 41.875696,
       'long': -87.624207,
-      'right_now': now,
+      'right_now': datetime.datetime.now().strftime("%s"),
       'zoom_level': 1,
       'google_map_key': 'AIzaSyDn1JWxObh62eNZXrnN_dmXXvNYBqRY2hM'
     }
