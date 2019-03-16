@@ -75,7 +75,6 @@ class KmlFile(webapp.RequestHandler):
                 kml_datas = KmlData.gql("WHERE uuid = :1", uuid) #db.get(uuid=uuid)
                 kml_data = kml_datas.get()
                 self.response.headers['Content-Type'] = 'application/vnd.google-earth.kml+xml'
-                self.response.headers['Content-Length'] = len(kml_data)
                 self.response.out.write(kml_data.kml)
         except Exception:
                 self.error(500)
