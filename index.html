@@ -25,35 +25,18 @@
 
       var map;
       var ctaLayer;
-      // var geoXml = new GGeoXml("https://display-kml-hrd.appspot.com/get_kml/{{ right_now }}/{{ kml_data.uuid }}.kml" );
-      // GEvent.addListener(geoXml, "load", function() {
-      //   geoXml.gotoDefaultViewport(map);
-      //   // I would like to read the KML contents here
-      // });
 
       function initMapAfterWaiting() {
         setTimeout(initMap, 1000)
       }
 
       function initMap() {
-        // if (GBrowserIsCompatible()) {
-        // map = new GMap2(document.getElementById("map"));
         var mapProp = {
           center: new google.maps.LatLng({{ lat }}, {{ long }}),
           zoom: {{ zoom_level }},
           mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         map = new google.maps.Map(document.getElementById("map"), mapProp);
-        // map.addControl(new GLargeMapControl());
-        // map.setCenter(new GLatLng({{ lat }}, {{ long }}), {{ zoom_level }});
-        // map.addControl(new GLargeMapControl());
-        // map.addControl(new GMapTypeControl());
-        // map.addControl(new GOverviewMapControl());
-        // map.addOverlay(geoXml);
-        // GEvent.addListener(map, "dblclick", setLatLongs);
-        // GEvent.addListener(map, "zoomend", setZoom);
-        // GEvent.addListener(map, "moveend", setLatLongs);
-        // geoXml.gotoDefaultViewport(map)
         ctaLayer = new google.maps.KmlLayer({
           url: "https://display-kml-hrd.appspot.com/get_kml/{{ right_now }}/{{ kml_data.uuid }}.kml",
           map: map

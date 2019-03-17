@@ -40,10 +40,6 @@ class MainPage(webapp.RequestHandler):
     }
     template = JINJA_ENVIRONMENT.get_template('index.html')
     self.response.write(template.render(template_values))
-    # path = os.path.join(os.path.dirname(__file__), 'index.html')
-    # content = template.render(path, template_values)
-    # self.response.out.write(template.render(path, template_values))
-    # self.response.out.write(content)
 
   def post(self):
     key_id = self.request.get('key')
