@@ -7,10 +7,14 @@ import wsgiref.handlers
 from google.appengine.api import users
 from google.appengine.ext import webapp
 from google.appengine.ext import db
-# from google.appengine.ext.webapp import template
 import jinja2
 
 import datetime
+
+from google.cloud import datastore
+client = datastore.Client()
+datastore_entity = client.get(client.key('settings', 'GOOGLE_MAPS_API_KEY'))
+api_key = datastore_entity.get('value')
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -36,7 +40,7 @@ class MainPage(webapp.RequestHandler):
       'long': -87.624207,
       'right_now': datetime.datetime.now().strftime("%s"),
       'zoom_level': 1,
-      'google_map_key': 'AIzaSyDn1JWxObh62eNZXrnN_dmXXvNYBqRY2hM'
+      'google_map_key': api_key
     }
     template = JINJA_ENVIRONMENT.get_template('index.html')
     self.response.write(template.render(template_values))
