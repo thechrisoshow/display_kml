@@ -10,9 +10,7 @@ from google.appengine.ext import db
 import jinja2
 
 import datetime
-
-import gae_env
-from gae_env import ValueNotSetError, NOT_SET_VALUE
+api_key = os.environ.get('GOOGLE_MAPS_API_KEY', 'Specified environment variable is not set.')
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -29,7 +27,6 @@ class KmlData(db.Model):
 
 class MainPage(webapp.RequestHandler):
   def get(self):
-    api_key = gae_env.get('GOOGLE_MAPS_API_KEY')
     cookie_str = self.request.headers.get('Cookie')
     kml_data = self.find_kml_data()
     template_values = {
@@ -102,11 +99,11 @@ class Purge(webapp.RequestHandler):
     except Exception, ints:
         self.response.out.write(str(ints))
 
-def main(a, b):
+def main():
   application = webapp.WSGIApplication(
                                        [('/', MainPage), (r'/get_kml/\d+/(?P<uuid_to_find>.+)\.kml', KmlFile),
 (r'/purge', Purge)], debug=True)
   wsgiref.handlers.CGIHandler().run(application)
 
-if __name__ == "main":
+if __name__ == "__main__":
   main()
