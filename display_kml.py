@@ -102,11 +102,11 @@ class Purge(webapp.RequestHandler):
     except Exception, ints:
         self.response.out.write(str(ints))
 
-def main():
+def main(a, b):
   application = webapp.WSGIApplication(
                                        [('/', MainPage), (r'/get_kml/\d+/(?P<uuid_to_find>.+)\.kml', KmlFile),
 (r'/purge', Purge)], debug=True)
   wsgiref.handlers.CGIHandler().run(application)
 
-if __name__ == "__main__":
+if __name__ == "main":
   main()

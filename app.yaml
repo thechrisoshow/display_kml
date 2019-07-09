@@ -18,7 +18,7 @@ handlers:
 
     # login: admin
   - url: /.*
-    script: display_kml.py
+    script: display_kml.main
 
 libraries:
   - name: jinja2
