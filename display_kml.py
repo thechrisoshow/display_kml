@@ -11,10 +11,8 @@ import jinja2
 
 import datetime
 
-from google.cloud import datastore
-client = datastore.Client()
-datastore_entity = client.get(client.key('settings', 'GOOGLE_MAPS_API_KEY'))
-api_key = datastore_entity.get('value')
+import gae_env
+from gae_env import ValueNotSetError, NOT_SET_VALUE
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -31,6 +29,7 @@ class KmlData(db.Model):
 
 class MainPage(webapp.RequestHandler):
   def get(self):
+    api_key = gae_env.get('GOOGLE_MAPS_API_KEY')
     cookie_str = self.request.headers.get('Cookie')
     kml_data = self.find_kml_data()
     template_values = {
