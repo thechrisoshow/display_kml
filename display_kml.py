@@ -10,7 +10,8 @@ from google.appengine.ext import db
 import jinja2
 
 import datetime
-api_key = os.environ.get('GOOGLE_MAPS_API_KEY', 'Specified environment variable is not set.')
+from settings import Settings
+api_key = Settings.get('GOOGLE_MAPS_API_KEY')
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
